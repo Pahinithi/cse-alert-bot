@@ -1,0 +1,46 @@
+name: CSE Stock Alert Bot
+
+on:
+  schedule:
+    - cron: '30 4 * * 1-5'
+    - cron: '0  5 * * 1-5'
+    - cron: '30 5 * * 1-5'
+    - cron: '0  6 * * 1-5'
+    - cron: '30 6 * * 1-5'
+    - cron: '0  7 * * 1-5'
+    - cron: '30 7 * * 1-5'
+    - cron: '0  8 * * 1-5'
+    - cron: '30 8 * * 1-5'
+    - cron: '0  9 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  run-alert-bot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests tradingview_ta pytz
+
+      - name: Run alert bot
+        env:
+          TELEGRAM_TOKEN:   ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python main.py
+
+      - name: Save alert state
+        run: |
+          git config user.name "CSE Alert Bot"
+          git config user.email "bot@cse-alert"
+          git add custom_alerts.json telegram_offset.json 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "Update alert state [skip ci]"
+          git push
