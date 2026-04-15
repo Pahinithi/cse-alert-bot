@@ -8,5 +8,15 @@
     "symbol": "JKH.N0000",
     "condition": "below",
     "price": 20.0
+  },
+  {
+    "symbol": "COMB.X0000",
+    "condition": "above",
+    "price": 194.0
+  },
+  {
+    "symbol": "SAMP.N0000",
+    "condition": "below",
+    "price": 149.75
   }
 ]
