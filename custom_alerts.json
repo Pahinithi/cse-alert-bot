@@ -1,7 +1,12 @@
 [
   {
-    "symbol": "LOLC.N0000",
+    "symbol": "ACL.N0000",
+    "condition": "above",
+    "price": 94.0
+  },
+  {
+    "symbol": "JKH.N0000",
     "condition": "below",
-    "price": 600.0
+    "price": 20.0
   }
 ]
