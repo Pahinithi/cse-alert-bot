@@ -31,14 +31,14 @@ ASPI_CHANGE_PCT = 2.0
 
 # Daily Summary
 
-# Send a market overview at 10:00 AM when market opens
+# Send a market overview at 09:30 AM when market opens
 SEND_DAILY_SUMMARY = True
 
 # How many top gainers and losers to show in the daily summary
 TOP_MOVERS_COUNT = 5
 
 # Market Hours (Sri Lanka time)
-MARKET_OPEN_HOUR = 10
-MARKET_OPEN_MIN = 0
+MARKET_OPEN_HOUR = 9
+MARKET_OPEN_MIN = 30
 MARKET_CLOSE_HOUR = 14
 MARKET_CLOSE_MIN = 30
