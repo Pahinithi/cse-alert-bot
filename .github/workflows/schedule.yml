@@ -50,3 +50,12 @@ jobs:
           git add custom_alerts.json telegram_offset.json 2>/dev/null || true
           git diff --staged --quiet || git commit -m "Update alert state [skip ci]"
           git push
+
+      - name: Keep repository active
+        run: |
+          git config user.name "CSE Alert Bot"
+          git config user.email "bot@cse-alert"
+          echo "Last run: $(date)" > last_run.txt
+          git add last_run.txt
+          git commit -m "Keep alive [skip ci]" || true
+          git push || true
