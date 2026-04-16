@@ -5,13 +5,8 @@
     "price": 20.0
   },
   {
-    "symbol": "COMB.X0000",
+    "symbol": "ACL.N0000",
     "condition": "above",
-    "price": 194.0
-  },
-  {
-    "symbol": "SAMP.N0000",
-    "condition": "below",
-    "price": 149.75
+    "price": 94.0
   }
 ]
