@@ -1,10 +1,5 @@
 [
   {
-    "symbol": "ACL.N0000",
-    "condition": "above",
-    "price": 94.0
-  },
-  {
     "symbol": "JKH.N0000",
     "condition": "below",
     "price": 20.0
