@@ -1,4 +1,3 @@
-
 # Stocks to monitor for RSI alerts (add or remove symbols as needed)
 WATCHLIST = [
     "LOLC.N0000",
@@ -13,7 +12,7 @@ WATCHLIST = [
     "LION.N0000",
 ]
 
-# ─── Automatic Alert Rules ─────────────────────────────────────────
+# Automatic Alert Rules
 
 # Send alert if any stock gains more than this % in one day
 GAIN_ALERT_PCT = 5.0
@@ -30,7 +29,7 @@ RSI_OVERBOUGHT = 70
 # Send alert if ASPI index changes more than this % from previous day
 ASPI_CHANGE_PCT = 2.0
 
-# ─── Daily Summary ─────────────────────────────────────────────────
+# Daily Summary
 
 # Send a market overview at 09:30 AM when market opens
 SEND_DAILY_SUMMARY = True
@@ -38,7 +37,7 @@ SEND_DAILY_SUMMARY = True
 # How many top gainers and losers to show in the daily summary
 TOP_MOVERS_COUNT = 5
 
-# ─── Market Hours (Sri Lanka time) ─────────────────────────────────
+# Market Hours (Sri Lanka time)
 MARKET_OPEN_HOUR  = 9
 MARKET_OPEN_MIN   = 30
 MARKET_CLOSE_HOUR = 14
