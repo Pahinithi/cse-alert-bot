@@ -1,44 +1,61 @@
-# Stocks to monitor for RSI alerts (add or remove symbols as needed)
-WATCHLIST = [
-    "LOLC.N0000",
-    "JKH.N0000",
-    "COMB.N0000",
-    "DIAL.N0000",
-    "SAMP.N0000",
-    "ABAN.N0000",
-    "CARG.N0000",
-    "HNB.N0000",
-    "BUKI.N0000",
-    "LION.N0000",
-]
+name: CSE Stock Alert Bot
 
-#  Automatic Alert Rules
+on:
+  schedule:
+    - cron: '0  4 * * 1-5'    # 09:30 AM SL
+    - cron: '30 4 * * 1-5'    # 10:00 AM SL
+    - cron: '0  5 * * 1-5'    # 10:30 AM SL
+    - cron: '30 5 * * 1-5'    # 11:00 AM SL
+    - cron: '0  6 * * 1-5'    # 11:30 AM SL
+    - cron: '30 6 * * 1-5'    # 12:00 PM SL
+    - cron: '0  7 * * 1-5'    # 12:30 PM SL
+    - cron: '30 7 * * 1-5'    # 01:00 PM SL
+    - cron: '0  8 * * 1-5'    # 01:30 PM SL
+    - cron: '30 8 * * 1-5'    # 02:00 PM SL
+    - cron: '0  9 * * 1-5'    # 02:30 PM SL
+  workflow_dispatch:
 
-# Send alert if any stock gains more than this % in one day
-GAIN_ALERT_PCT = 5.0
+jobs:
+  run-alert-bot:
+    runs-on: ubuntu-latest
 
-# Send alert if any stock loses more than this % in one day
-LOSS_ALERT_PCT = 5.0
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
-# RSI below this = oversold (possible buy opportunity)
-RSI_OVERSOLD = 30
+    permissions:
+      contents: write
 
-# RSI above this = overbought (possible sell signal)
-RSI_OVERBOUGHT = 70
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-# Send alert if ASPI index changes more than this % from previous day
-ASPI_CHANGE_PCT = 2.0
+      - uses: actions/setup-python@v5.6.0
+        with:
+          python-version: '3.11'
 
-# Daily Summary
+      - name: Install dependencies
+        run: pip install requests tradingview_ta pytz
 
-# Send a market overview at 09:30 AM when market opens
-SEND_DAILY_SUMMARY = True
+      - name: Run alert bot
+        env:
+          TELEGRAM_TOKEN:   ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python main.py
 
-# How many top gainers and losers to show in the daily summary
-TOP_MOVERS_COUNT = 5
+      - name: Save alert state
+        run: |
+          git config user.name "CSE Alert Bot"
+          git config user.email "bot@cse-alert"
+          git add custom_alerts.json telegram_offset.json 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "Update alert state [skip ci]"
+          git push
 
-# Market Hours (Sri Lanka time)
-MARKET_OPEN_HOUR = 9
-MARKET_OPEN_MIN = 30
-MARKET_CLOSE_HOUR = 14
-MARKET_CLOSE_MIN = 30
+      - name: Keep repository active
+        run: |
+          git config user.name "CSE Alert Bot"
+          git config user.email "bot@cse-alert"
+          echo "Last run: $(date)" > last_run.txt
+          git add last_run.txt
+          git commit -m "Keep alive [skip ci]" || true
+          git push || true
